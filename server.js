@@ -1,223 +1,221 @@
-// server/models/User.js
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+// server.js
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import pg from 'pg';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
- UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
-
-UserSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
-  next();
-});
-
-module.exports = mongoose.model("User", UserSchema);
-
-// server/models/Task.js
-const mongoose = require("mongoose");
-
-const TaskSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  title: { type: String, required: true },
-  description: { type: String },
-  date: { type: Date, required: true },
-  status: { type: String, enum: ["In Progress", "Completed"], default: "In Progress" },
-});
-
-module.exports = mongoose.model("Task", TaskSchema);
-
-// server/routes/auth.js
-const express = require("express");
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const router = express.Router();
-
-router.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = new User({ username, password });
-    await user.save();
-    res.status(201).send("User registered");
-  } catch (error) {
-    res.status(400).send("Error registering user");
-  }
-});
-
-router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = await User.findOne({ username });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).send("Invalid credentials");
-    }
-    res.status(200).send("Login successful");
-  } catch (error) {
-    res.status(400).send("Error logging in");
-  }
-});
-
-module.exports = router;
-
-// server/routes/tasks.js
-const express = require("express");
-const Task = require("../models/Task");
- router = express.Router();
-
-router.post("/", async (req, res) => {
-  const { userId, title, description, date } = req.body;
-  try {
-    const task = new Task({ userId, title, description, date });
-    await task.save();
-    res.status(201).send("Task added");
-  } catch (error) {
-    res.status(400).send("Error adding task");
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
-  try {
-    const task = await Task.findByIdAndUpdate(id, { status }, { new: true });
-    res.status(200).send(task);
-  } catch (error) {
-    res.status(400).send("Error updating task");
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    await Task.findByIdAndDelete(id);
-    res.status(200).send("Task deleted");
-  } catch (error) {
-    res.status(400).send("Error deleting task");
-  }
-});
-
-module.exports = router;
-
-// server/routes/auth.js
-router.post("/register", async (req, res) => {
-    const { username, password } = req.body;
-    try {
-      const user = new User({ username, password });
-      await user.save();
-      res.status(201).send("User registered");
-    } catch (error) {
-      res.status(400).send("Error registering user");
-    }
-  });
-
-  // server/models/User.js
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  surname: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
-
-UserSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
-  next();
-});
-
-module.exports = mongoose.model("User", UserSchema);
-
-// server/routes/auth.js
-router.post("/register", async (req, res) => {
-    const { name, surname, email, password } = req.body;
-    try {
-      // Check if email already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: "Email already in use" });
-      }
-  
-      // Create new user
-      const user = new User({ name, surname, email, password });
-      await user.save();
-      res.status(201).json({ message: "User registered successfully" });
-    } catch (error) {
-      res.status(400).json({ message: "Error registering user", error: error.message });
-    }
-  });
-
-  // server/routes/auth.js
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    // Find the user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    // Compare the password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    res.status(200).json({ message: "Login successful" });
-  } catch (error) {
-    res.status(500).json({ message: "Error logging in", error: error.message });
-  }
-});
-
-// server/routes/auth.js
-router.post("/register", async (req, res) => {
-  const { name, surname, email, password } = req.body;
-
-  try {
-    // Check if email exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
-    }
-
-    // Create new user
-    const user = new User({ name, surname, email, password });
-    await user.save();
-
-    res.status(201).json({ message: "User registered successfully" }); // Success response
-  } catch (error) {
-    res.status(500).json({ message: "Error registering user", error: error.message });
-  }
-});
-
-const express = require('express');
-const connectDB = require('./db');
-
- app = express();
-
-// Connect to MongoDB
-connectDB();
-
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
-});
-
-const express = require('express');
-const connectDB = require('./db');
+// Create __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  const db = await connectDB();
-  const users = await db.collection('users').find().toArray();
-  res.json(users);
+// Middleware
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// PostgreSQL connection configuration
+const db = new pg.Client({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'Todo',
+  password: '123456',
+  port: 5432,
 });
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+// Test database connection
+db.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error('Error connecting to PostgreSQL:', err);
+  } else {
+    console.log('Connected to PostgreSQL at:', res.rows[0].now);
+  }
 });
+
+// Serve static files
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'land.html'));
+});
+
+// User model
+class User {
+  static async create({ name, surname, email, password }) {
+    const hashedPassword = await bcrypt.hash(password, 8);
+    const query = `
+      INSERT INTO users (name, surname, email, password)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, name, surname, email, created_at
+    `;
+    const values = [name, surname, email, hashedPassword];
+    const { rows } = await db.query(query, values);
+    return rows[0];
+  }
+
+  static async findByEmail(email) {
+    const query = 'SELECT * FROM users WHERE email = $1';
+    const { rows } = await db.query(query, [email]);
+    return rows[0];
+  }
+}
+
+// Task model
+class Task {
+  static async create({ userId, title, description, date }) {
+    const query = `
+      INSERT INTO tasks (user_id, title, description, date)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+    `;
+    const values = [userId, title, description, date];
+    const { rows } = await db.query(query, values);
+    return rows[0];
+  }
+
+  static async findByIdAndUpdate(id, { status }) {
+    const query = `
+      UPDATE tasks
+      SET status = $1, updated_at = NOW()
+      WHERE id = $2
+      RETURNING *
+    `;
+    const { rows } = await db.query(query, [status, id]);
+    return rows[0];
+  }
+
+  static async findByIdAndDelete(id) {
+    const query = 'DELETE FROM tasks WHERE id = $1 RETURNING *';
+    const { rows } = await db.query(query, [id]);
+    return rows[0];
+  }
+}
+
+// Auth Routes
+const authRouter = express.Router();
+
+authRouter.post('/register', async (req, res) => {
+  const { name, surname, email, password } = req.body;
+
+  try {
+    const existingUser = await User.findByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already in use' });
+    }
+
+    const user = await User.create({ name, surname, email, password });
+    res.status(201).json({ 
+      message: 'User registered successfully',
+      user: {
+        id: user.id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error registering user', error: error.message });
+  }
+});
+
+authRouter.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findByEmail(email);
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    res.status(200).json({ 
+      message: 'Login successful',
+      user: {
+        id: user.id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error logging in', error: error.message });
+  }
+});
+
+// Task Routes
+const taskRouter = express.Router();
+
+taskRouter.post('/', async (req, res) => {
+  const { userId, title, description, date } = req.body;
+
+  try {
+    const task = await Task.create({ userId, title, description, date });
+    res.status(201).json({ 
+      message: 'Task added successfully',
+      task
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Error adding task', error: error.message });
+  }
+});
+
+taskRouter.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const task = await Task.findByIdAndUpdate(id, { status });
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.status(200).json({ 
+      message: 'Task updated successfully',
+      task
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Error updating task', error: error.message });
+  }
+});
+
+taskRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const task = await Task.findByIdAndDelete(id);
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.status(200).json({ 
+      message: 'Task deleted successfully',
+      task
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Error deleting task', error: error.message });
+  }
+});
+
+// Mount routers
+app.use('/api/auth', authRouter);
+app.use('/api/tasks', taskRouter);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something broke!', error: err.message });
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+export default app;
