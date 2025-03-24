@@ -1,0 +1,117 @@
+/* public/css/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+  }
+  
+  .container {
+    max-width: 400px; /* Adjust width for the login form */
+    width: 100%;
+    padding: 20px;
+    background-color: #222; /* Slightly lighter background for the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); /* Pink shadow */
+  }
+  
+  h1 {
+    color: #ff69b4;
+    text-align: center; /* Center the heading */
+  }
+  
+  input, textarea, button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #ff69b4;
+    border-radius: 5px; /* Rounded corners for inputs */
+  }
+  
+  button {
+    background-color: #ff69b4;
+    cursor: pointer;
+    font-weight: bold; /* Make button text bold */
+  }
+  
+  button:hover {
+    background-color: #ff1493; /* Darker pink on hover */
+  }
+  
+  #calendar {
+    margin: 20px 0;
+  }
+  
+  /* Additional styles for the registration link */
+  #registerLink {
+    color: #ff69b4;
+    text-decoration: none;
+  }
+  
+  #registerLink:hover {
+    text-decoration: underline;
+  }
+
+  /* public/css/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: #222;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+  }
+  
+  h1 {
+    color: #ff69b4;
+    text-align: center;
+  }
+  
+  input, textarea, button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #ff69b4;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #ff69b4;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #ff1493;
+  }
+  
+  /* Styles for links */
+  #loginLink {
+    color: #ff69b4;
+    text-decoration: none;
+  }
+  
+  #loginLink:hover {
+    text-decoration: underline;
+  }
