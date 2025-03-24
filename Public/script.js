@@ -127,3 +127,67 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
       alert("An error occurred. Please try again.");
     }
   });
+
+  // public/js/auth.js
+document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      alert(data.message);
+      window.location.href = "/todo.html"; // Redirect to the To-Do page
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    alert("An error occurred. Please try again.");
+  }
+});
+
+// public/js/auth.js
+
+// Handle Sign Up Form Submission
+document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Get form values
+  const name = document.getElementById("name").value;
+  const surname = document.getElementById("surname").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  // Validate password match
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  // Send data to the server
+  try {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, surname, email, password }),
+    });
+
+    if (response.ok) {
+      alert("Account created successfully! Redirecting to login...");
+      window.location.href = "/index.html"; // Redirect to login page
+    } else {
+      const errorData = await response.json();
+      alert(`Error: ${errorData.message || "Failed to create account"}`);
+    }
+  } catch (error) {
+    alert("An error occurred. Please try again.");
+  }
+});
