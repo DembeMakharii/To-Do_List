@@ -1,122 +1,5 @@
 /* public/css/styles.css */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-    margin: 0; /* Remove default margin */
-  }
-  
-  .container {
-    max-width: 400px; /* Adjust width for the login form */
-    width: 100%;
-    padding: 20px;
-    background-color: #222; /* Slightly lighter background for the form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); /* Pink shadow */
-  }
-  
-  h1 {
-    color: #ff69b4;
-    text-align: center; /* Center the heading */
-  }
-  
-  input, textarea, button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #ff69b4;
-    border-radius: 5px; /* Rounded corners for inputs */
-  }
-  
-  button {
-    background-color: #ff69b4;
-    cursor: pointer;
-    font-weight: bold; /* Make button text bold */
-  }
-  
-  button:hover {
-    background-color: #ff1493; /* Darker pink on hover */
-  }
-  
-  #calendar {
-    margin: 20px 0;
-  }
-  
-  /* Additional styles for the registration link */
-  #registerLink {
-    color: #ff69b4;
-    text-decoration: none;
-  }
-  
-  #registerLink:hover {
-    text-decoration: underline;
-  }
-
-  /* public/css/styles.css */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .container {
-    max-width: 400px;
-    width: 100%;
-    padding: 20px;
-    background-color: #222;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-  }
-  
-  h1 {
-    color: #ff69b4;
-    text-align: center;
-  }
-  
-  input, textarea, button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #ff69b4;
-    border-radius: 5px;
-  }
-  
-  button {
-    background-color: #ff69b4;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  button:hover {
-    background-color: #ff1493;
-  }
-  
-  /* Styles for links */
-  #loginLink {
-    color: #ff69b4;
-    text-decoration: none;
-  }
-  
-  #loginLink:hover {
-    text-decoration: underline;
-  }
-  /* Base Styles */
-body {
   font-family: 'Arial', sans-serif;
   background-color: #000;
   color: #fff;
@@ -141,7 +24,7 @@ body {
   border: 1px solid rgba(255, 105, 180, 0.2);
 }
 
-.signup-title {
+h1, .signup-title {
   color: #ff69b4;
   text-align: center;
   margin-bottom: 1.8rem;
@@ -158,7 +41,7 @@ body {
   width: 100%;
 }
 
-input {
+input, textarea {
   width: 100%;
   padding: 14px;
   margin-bottom: 1.2rem;
@@ -170,17 +53,17 @@ input {
   transition: all 0.3s ease;
 }
 
-input:focus {
+input:focus, textarea:focus {
   outline: none;
   border-color: #ff69b4;
   box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.3);
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder {
   color: #888;
 }
 
-.signup-btn {
+button, .signup-btn {
   width: 100%;
   padding: 14px;
   background: linear-gradient(135deg, #ff69b4, #ff1493);
@@ -194,10 +77,14 @@ input::placeholder {
   margin-top: 0.5rem;
 }
 
-.signup-btn:hover {
+button:hover, .signup-btn:hover {
   background: linear-gradient(135deg, #ff1493, #ff69b4);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+}
+
+#calendar {
+  margin: 20px 0;
 }
 
 .login-text {
@@ -206,14 +93,14 @@ input::placeholder {
   color: #aaa;
 }
 
-#loginLink {
+#loginLink, #registerLink {
   color: #ff69b4;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
-#loginLink:hover {
+#loginLink:hover, #registerLink:hover {
   color: #ff1493;
   text-decoration: underline;
 }

@@ -222,3 +222,7 @@ app.listen(PORT, () => {
 app.get('/signup.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'signup.html'));
 });
+
+app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
