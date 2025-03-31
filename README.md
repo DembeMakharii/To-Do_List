@@ -1,4 +1,6 @@
 # To-Do List Application
+![image](https://github.com/user-attachments/assets/b08b6fb9-be16-47b0-b4da-10a1935dad60)
+
 
 ## Overview
 This is a comprehensive To-Do List application with user authentication, task management, and a Kanban-style board for organizing tasks. The application is built with HTML, CSS, and JavaScript, using Firebase for authentication and localStorage for task persistence.
