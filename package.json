@@ -1,18 +1,5 @@
 {
-  "name": "to-do-list",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "author": "Dembe Makhari",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "express": "^4.21.2",
-    "pg": "^8.14.1"
-  },
-  "type": "module"
+    "firebase": "^11.5.0"
+  }
 }

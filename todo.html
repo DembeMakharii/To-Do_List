@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GET IT DONE!</title>
+  <style>
+    /* Basic styles for the todo app */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('./img/7.jpg'); /* Add your image path here */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #333;
+    }
+    
+    /* Header styles */
+    header {
+      background-color: #8f13b5;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    }
+    
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    
+    #userInfo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    #logoutBtn {
+      background-color: #008cff;
+      color: black;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    #logoutBtn:hover {
+      background-color: #ffb300;
+    }
+    
+    /* Add Todo Form */
+    .add-todo {
+      padding: 20px;
+      background-color: white;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px; /* Centers and limits the width */
+    }
+    
+    .add-todo h3 {
+      margin: 0 0 15px;
+      font-size: 20px;
+    }
+    
+    .add-todo form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center; /* Centers items on smaller screens */
+    }
+    
+    .add-todo input,
+    .add-todo select,
+    .add-todo button {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 100%; /* Full width on mobile */
+    }
+    
+    .add-todo button {
+      background-color: #9e00b3;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .add-todo button:hover {
+      background-color: #004080;
+    }
+    
+    /* Kanban Board */
+    .kanban-board {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      flex-wrap: wrap;
+      justify-content: center; /* Centers columns on smaller screens */
+    }
+    
+    .column {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      min-width: 280px; /* Ensures columns don't shrink too much */
+      max-width: 400px; /* Prevents them from getting too wide */
+    }
+    
+    .column h3 {
+      margin: 0 0 15px;
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    /* Task List */
+    .tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .task {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap; /* Allows wrapping on small screens */
+    }
+    
+    .task p {
+      margin: 0;
+      flex: 1;
+    }
+    
+    .task button {
+      background-color: #ffcc00;
+      color: black;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 5px; /* Adds spacing between buttons */
+    }
+    
+    .task button:hover {
+      background-color: #ffb300;
+    }
+    
+    /* Filters Section */
+    .filters {
+      padding: 20px;
+      background-color: white;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+    }
+    
+    .filters label {
+      margin-right: 15px;
+    }
+    
+    .filters button {
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .filters button:hover {
+      background-color: #004080;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+    
+      .kanban-board {
+        flex-direction: column;
+        align-items: center;
+      }
+    
+      .column {
+        width: 90%;
+      }
+    
+      .add-todo form {
+        flex-direction: column;
+      }
+    
+      .task {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      .task button {
+        width: 100%;
+        margin-top: 5px;
+      }
+    
+      #userInfo {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Logout Button -->
+  <header>
+    <h1>GET IT DONE!</h1>
+    <div id="userInfo">
+      <span id="userEmail"></span>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <!-- Add Todo Form -->
+  <div class="add-todo">
+    <h3>Add New Task</h3>
+    <form id="addTodoForm">
+      <input type="text" id="task" placeholder="Task" required>
+      <select id="status" required>
+        <option value="todo">To-Do</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+      <select id="priority" required>
+        <option value="high">High Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="low">Low Priority</option>
+      </select>
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="kanban-board">
+    <div class="column" id="todo">
+      <h3>To-Do</h3>
+      <div class="tasks" id="todoTasks"></div>
+    </div>
+    <div class="column" id="in-progress">
+      <h3>In Progress</h3>
+      <div class="tasks" id="inProgressTasks"></div>
+    </div>
+    <div class="column" id="done">
+      <h3>Done</h3>
+      <div class="tasks" id="doneTasks"></div>
+    </div>
+  </div>
+
+  <script>
+    // Load todos from localStorage for the current user
+    function loadTodos() {
+      const userId = localStorage.getItem('userId');
+      const allTodos = JSON.parse(localStorage.getItem('allTodos')) || {};
+      return allTodos[userId] || [];
+    }
+
+    // Save todos to localStorage for the current user
+    function saveTodos(todos) {
+      const userId = localStorage.getItem('userId');
+      const allTodos = JSON.parse(localStorage.getItem('allTodos')) || {};
+      allTodos[userId] = todos;
+      localStorage.setItem('allTodos', JSON.stringify(allTodos));
+    }
+
+    // Render todos on the Kanban board
+    function renderTodos(todos) {
+      const todoTasks = document.getElementById('todoTasks');
+      const inProgressTasks = document.getElementById('inProgressTasks');
+      const doneTasks = document.getElementById('doneTasks');
+
+      todoTasks.innerHTML = '';
+      inProgressTasks.innerHTML = '';
+      doneTasks.innerHTML = '';
+
+      todos.forEach(todo => {
+        const taskElement = document.createElement('div');
+        taskElement.classList.add('task');
+        taskElement.innerHTML = `
+          <p>${todo.task} - ${todo.priority} - ${todo.status}</p>
+          <button onclick="editTodo('${todo.id}', '${todo.task}', '${todo.priority}')">📝 Edit</button>
+          <button onclick="deleteTodo('${todo.id}')">❌ Delete</button>
+          <button onclick="moveTodo('${todo.id}', '${todo.status}')">🔄 Move</button>
+        `;
+
+        if (todo.status === 'todo') todoTasks.appendChild(taskElement);
+        else if (todo.status === 'in-progress') inProgressTasks.appendChild(taskElement);
+        else if (todo.status === 'done') doneTasks.appendChild(taskElement);
+      });
+    }
+
+    // Add new todo
+    document.getElementById('addTodoForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        alert('You must be logged in to add todos.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const task = document.getElementById('task').value;
+      const status = document.getElementById('status').value;
+      const priority = document.getElementById('priority').value;
+      const id = Date.now().toString();
+
+      const newTodo = { id, task, status, priority, userId };
+      const todos = loadTodos();
+      todos.push(newTodo);
+      saveTodos(todos);
+      
+      renderTodos(todos);
+      document.getElementById('addTodoForm').reset();
+    });
+
+    // Logout (only removes userId, keeps todos)
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('userId'); // Only remove userId, not todos
+      window.location.href = 'login.html';
+    });
+
+    // Function to edit a todo
+    function editTodo(id, currentTask, currentPriority) {
+      const newTask = prompt("Edit Task:", currentTask);
+      const newPriority = prompt("Edit Priority (high, medium, low):", currentPriority);
+      if (newTask && newPriority) {
+        const todos = loadTodos();
+        const todo = todos.find(t => t.id === id);
+        if (todo) {
+          todo.task = newTask;
+          todo.priority = newPriority;
+          saveTodos(todos);
+          renderTodos(todos);
+        }
+      }
+    }
+
+    // Function to delete a todo
+    function deleteTodo(id) {
+      if (confirm("Are you sure you want to delete this task?")) {
+        const todos = loadTodos();
+        const updatedTodos = todos.filter(t => t.id !== id);
+        saveTodos(updatedTodos);
+        renderTodos(updatedTodos);
+      }
+    }
+
+    // Function to move a todo to the next status
+    function moveTodo(id, currentStatus) {
+      const todos = loadTodos();
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+
+      const statuses = ["todo", "in-progress", "done"];
+      const nextStatus = statuses[(statuses.indexOf(currentStatus) + 1) % statuses.length];
+      todo.status = nextStatus;
+      
+      saveTodos(todos);
+      renderTodos(todos);
+    }
+
+    // Initial render when page loads
+    window.addEventListener('load', () => {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        window.location.href = 'login.html';
+      } else {
+        const todos = loadTodos();
+        renderTodos(todos);
+      }
+    });
+  </script>
+</body>
+</html>

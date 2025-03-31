@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    <!-- Header (Navbar) -->
+    <header>
+        <h1>To-Do List App</h1>
+        <nav>
+            <a href="register.html" class="btn">Register</a>
+            <a href="login.html" class="btn">Login</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Organize Your Tasks Efficiently</h2>
+            <p>Stay productive with our easy-to-use To-Do List App.</p>
+            <a href="register.html" class="cta-btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; Created by: Chadrack Ndalamba. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript to change navbar transparency on scroll -->
+    <script>
+        // Get the header element
+        const header = document.querySelector('header');
+
+        // Function to change the navbar's transparency on scroll
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 50) { // When the page is scrolled down 50px or more
+                header.style.background = 'rgba(158, 168, 179, 0.6)'; // Add slight opacity
+            } else { // When at the top of the page
+                header.style.background = 'rgba(158, 168, 179, 0.4)'; // Keep it transparent
+            }
+        });
+    </script>
+
+    <!-- Script for User Registration & Login Integration (JSON Server) -->
+    <script>
+        // Here you can fetch users from your JSON Server (example API for JSON Server)
+        const apiUrl = 'http://localhost:3000/users'; // Your JSON Server URL
+
+        // Handle Register Button click
+        document.querySelector('.cta-btn')?.addEventListener('click', async () => {
+            // Here you might trigger user registration by sending the form data to the API.
+            // Just for illustration, we're sending a POST request for user registration.
+
+            const newUser = {
+                email: 'user@example.com', // Example user data
+                password: 'password123'     // Example password data
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newUser)
+                });
+
+                const data = await response.json();
+                if (data) {
+                    console.log('User registered:', data);
+                    // Redirect to login page after registration
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Error registering user:', error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+node_modules/
+.env
+MONGO_URI=mongodb+srv://<chadrackndalamba>:<Nda_28339290>@cluster0.mongodb.net/todoDB?retryWrites=true&w=majority
+.vercel
